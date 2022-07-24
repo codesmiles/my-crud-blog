@@ -19,13 +19,15 @@ return "<h1>Hello World<h1>";
 });
 
 Route::get("/all-post",[PostController::class,"index"]);
-Route::post("/upload-post",[PostController::class,"store"]);
 Route::get("/post/{id}",[PostController::class,"show"]);
-Route::post("/post/{id}",[PostController::class,"update"]);
-Route::delete("/post/{id}",[PostController::class,"destroy"]);
+Route::post("/user-register",[Controller::class,"saveUser"]);
+Route::post("/user-login",[Controller::class,"userLogin"]);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::get("/user",[Controller::class,"saveUser"]);
+    Route::post("/post-upload",[PostController::class,"store"]);
+    Route::post("/post/{id}",[PostController::class,"update"]);
+    Route::delete("/post/{id}",[PostController::class,"destroy"]);
+    Route::get("/user-logout",[Controller::class,"logout"]);
 });
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
