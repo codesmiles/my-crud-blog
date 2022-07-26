@@ -23,9 +23,11 @@ Route::get("/post/{id}",[PostController::class,"show"]);
 Route::post("/user-register",[Controller::class,"saveUser"]);
 Route::post("/user-login",[Controller::class,"userLogin"]);
 
+
+
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post("/post-upload",[PostController::class,"store"]);
-    Route::post("/post/{id}",[PostController::class,"update"]);
+    Route::put("/post/{id}",[PostController::class,"update"]);
     Route::delete("/post/{id}",[PostController::class,"destroy"]);
     Route::get("/user-logout",[Controller::class,"logout"]);
 });
