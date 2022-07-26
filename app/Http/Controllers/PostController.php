@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Whoops\Run;
 use App\Models\Post;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use SebastianBergmann\CodeCoverage\Report\Xml\Unit;
 
 class PostController extends Controller
 {
@@ -25,7 +28,15 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        return Post::create($request->all());
+        $fields = $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+            'slug' => 'required',
+            // 'user_id' => ['required', Rule::exists('users', 'id')]
+            "user_id" => ['required', Rule::unique('posts')->where('user_id', $request->user_id)]
+            
+        ]);
+        return Post::create($fields);
     }
 
     /**
